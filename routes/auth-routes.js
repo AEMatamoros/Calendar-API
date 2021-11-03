@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const { check, oneOf } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
+
 
 const router = Router();
 
@@ -25,7 +27,7 @@ router.post('/login',
     ,loginUsuario, (req,res)=>{
 })
 
-router.get('/renew',revalidarToken, (req,res)=>{
+router.get('/renew', validarJWT ,revalidarToken, (req,res)=>{
 })
 
 
