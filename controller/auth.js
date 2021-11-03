@@ -8,7 +8,7 @@ const crearUsuario = async (req, res = response, next) => {
 
   try {
     
-    const { name, email, password } = req.body
+    const { first_name,last_name, email, password } = req.body
 
     let usuario = await userModel.findOne({email})
     if(usuario){
@@ -19,7 +19,8 @@ const crearUsuario = async (req, res = response, next) => {
     }
 
     const user = userModel()
-    user.name = name
+    user.first_name = first_name
+    user.last_name = last_name
     user.email = email
     user.password = password
     //Encriptar contraseña
@@ -29,13 +30,15 @@ const crearUsuario = async (req, res = response, next) => {
     let createdUser = await user.save()
 
     //Generar JWT
-    const token = await generateJWT( createdUser.id, createdUser.name )
+    const token = await generateJWT( createdUser.id, createdUser.first_name )
 
     res.status(201).json({
         ok:'true',
         msg:'User created',
         id:createdUser['_id'],
-        name:createdUser['name'],
+        first_name:createdUser['first_name'],
+        last_name:createdUser['last_name'],
+        email:createdUser['email'],
         token: token
     })
 
@@ -82,7 +85,10 @@ const loginUsuario = async (req, res = response, next) => {
         ok:'true',
         msg:'Logged in',
         id:usuario['_id'],
-        name:usuario['name'],
+        first_name:usuario['first_name'],
+        last_name:usuario['last_name'],
+        date_created:usuario['date_created'],
+        email:usuario['email'],
         token: token
     })
 
@@ -100,15 +106,15 @@ const loginUsuario = async (req, res = response, next) => {
 const revalidarToken = async (req, res = response, next) => {
 
     const uid = req.uid;
-    const name = req.name;
+    const first_name = req.first_name;
     
-    const token = await generateJWT( uid, name );
+    const token = await generateJWT( uid, first_name );
 
     res.status(200).json({
         ok:true,
         msg:'Token renovado',
         uid:uid,
-        name:name,
+        first_name:first_name,
         token:token
     })
 

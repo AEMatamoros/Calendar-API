@@ -10,7 +10,8 @@ const { crearUsuario, loginUsuario, revalidarToken } = require('../controller/au
 
 router.post('/register',
     [
-        check('name','El nombre es un campo obligatorio').not().isEmpty(),
+        check('first_name','El nombre es un campo obligatorio').not().isEmpty(),
+        check('last_name','El apellido es un campo obligatorio').not().isEmpty(),
         check('email','El formato del correo es incorrecto').isEmail(),
         check('password','La contraseña es obligatoria, debe poseer al menos 8 caracteres').not().isEmpty().isLength(min=8),
         validarCampos

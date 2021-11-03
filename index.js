@@ -13,7 +13,8 @@ app.use(express.static('public'))
 //Parse Body
 app.use(express.json());
 //Routes
-app.use('/api/auth', require('./routes/auth-routes'))
+app.use('/api/auth', require('./routes/auth-routes'));
+app.use('/api/event',require('./routes/event-routes'));
 
 
 app.listen(process.env.PORT,(req,res)=>{
