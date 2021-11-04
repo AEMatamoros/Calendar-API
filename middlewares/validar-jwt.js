@@ -18,6 +18,7 @@ const validarJWT = (req, res = response, next) => {
         
         req.uid = payload.uid
         req.first_name = payload.first_name
+        req.last_name = payload.last_name
 
     } catch (error) {
         return res.status(401).json({

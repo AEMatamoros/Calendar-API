@@ -7,7 +7,7 @@ const { dbConection } = require('./database/config')
 dbConection()
 const app = express();
 //Cors
-app.use(cors());
+app.use(cors())
 //Public directory 
 app.use(express.static('public'))
 //Parse Body

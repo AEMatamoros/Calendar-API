@@ -30,9 +30,9 @@ const crearUsuario = async (req, res = response, next) => {
     let createdUser = await user.save()
 
     //Generar JWT
-    const token = await generateJWT( createdUser.id, createdUser.first_name )
-
-    res.status(201).json({
+    const token = await generateJWT( createdUser.id, createdUser.first_name, createdUser.last_name )
+    
+    return res.status(201).json({
         ok:'true',
         msg:'User created',
         id:createdUser['_id'],
@@ -46,7 +46,7 @@ const crearUsuario = async (req, res = response, next) => {
 
   } catch (error) {
 
-    res.status(400).json({
+    return res.status(400).json({
       ok: 'false',
       msg: 'Ha ocurrido un error',
     })
@@ -79,7 +79,7 @@ const loginUsuario = async (req, res = response, next) => {
     }
 
     //Generar Token
-    const token = await generateJWT( usuario.id, usuario.name )
+    const token = await generateJWT( usuario.id, usuario.first_name, usuario.last_name )
 
     res.status(201).json({
         ok:'true',
@@ -107,14 +107,16 @@ const revalidarToken = async (req, res = response, next) => {
 
     const uid = req.uid;
     const first_name = req.first_name;
+    const last_name = req.last_name;
     
-    const token = await generateJWT( uid, first_name );
+    const token = await generateJWT( uid, first_name,last_name );
 
     res.status(200).json({
         ok:true,
         msg:'Token renovado',
         uid:uid,
         first_name:first_name,
+        last_name:last_name,
         token:token
     })
 
